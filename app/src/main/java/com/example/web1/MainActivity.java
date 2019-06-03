@@ -1,31 +1,60 @@
 package com.example.web1;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.ViewGroup;
-import android.webkit.WebSettings;
+import android.support.v4.view.KeyEventDispatcher;
+import android.view.KeyEvent;
+import android.view.Menu;
 import android.webkit.WebView;
-import android.widget.LinearLayout;
+import android.webkit.WebViewClient;
+import android.widget.MediaController;
+import android.widget.Toast;
+import android.widget.VideoView;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends Activity {
+
+    private WebView mWebView;
+    private Menu menu;
+    private VideoView videoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
+        //this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+       // this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
 
-        WebView wv = new WebView(this);//(WebView) findViewById(R.id.web1);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        wv.setLayoutParams(lp);
+        mWebView = (WebView) findViewById(R.id.webView1);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.setWebViewClient(new WebViewClient());
 
-        WebSettings ws = wv.getSettings();
-        ws.setJavaScriptEnabled(true);
-        ws.setSupportZoom(false);
-
-        wv.loadUrl("http://ipublico.atwebpages.com");
-        ll.addView(wv);
+        mWebView.loadUrl("https://m.youtube.com");
 
     }
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
+
+    private class MyWebViewClient extends WebViewClient {
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return false;
+        }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+    }
+
 }
